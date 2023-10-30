@@ -1,0 +1,6 @@
+.vs/
+.git/
+obj/
+node_modules/
+package-lock.json
+bin/

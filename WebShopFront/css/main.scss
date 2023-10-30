@@ -1,0 +1,28 @@
+html{
+    font-size: 16px;
+}
+
+html, body{
+    height: 100%;
+}
+
+.wrapper{
+    display: flex;
+    min-height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.content{
+    flex: 1 1 auto;
+}
+
+.test{
+    &__block{
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}

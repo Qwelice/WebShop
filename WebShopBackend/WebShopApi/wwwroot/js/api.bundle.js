@@ -98,7 +98,7 @@ eval("const React = __webpack_require__(/*! react */ \"./node_modules/react/inde
   \*************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("const React = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\nfunction Header(props) {}\nmodule.exports = Header;\n\n//# sourceURL=webpack://webshopfront/./app/views/shared/header.jsx?");
+eval("const React = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\nfunction Header(props) {\n  return;\n}\nmodule.exports = Header;\n\n//# sourceURL=webpack://webshopfront/./app/views/shared/header.jsx?");
 
 /***/ }),
 

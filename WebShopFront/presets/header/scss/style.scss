@@ -1,0 +1,78 @@
+// Файл обнуляющих стилей
+@import "nullstyle.scss";
+
+html, body{
+  height: 100%;
+  width: 100%;
+  font-family: "Marker Felt, fantasy";
+  font-size: xx-large;
+  font-weight: bold;
+  color: white;
+}
+
+.header{
+  background-color: black;
+  height: 75px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.emblem{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding-left: 7px;
+}
+
+.searchrow{
+  padding-top: 10px;
+}
+
+.search{
+  border-radius: 30px;
+  margin: 10px;
+  padding: 10px;
+}
+.search:focus{
+  background-color: #D8BFD8;
+}
+
+.button{
+  border-radius: 30px;
+  padding: 10px;
+  font-weight: 600;
+  background-color:#483D8B;
+  color: white;
+}
+.button:hover{
+  background-color: #191970;
+}
+.button:active{
+  background-color: #000080;
+}
+
+.menu{
+  display: flex;
+  height: 100%;
+  width: 25%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menu__item{
+  position: relative;
+  border: 2px solid white;
+  border-radius: 30px;
+  padding: 10px 20px;
+  margin: 0 20px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 17px;
+}
+.menu__item:hover{
+  color: #DA70D6;
+  border: 2px solid #DA70D6;
+}
+
+

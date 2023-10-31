@@ -1,17 +1,15 @@
 const React = require('react');
-const { Routes } = require('react-router');
+const { Routes, Route } = require('react-router');
 const Router = require('react-router-dom').BrowserRouter;
 
 const Header = require('./shared/header.jsx');
+const HomePage = require('./home/home.page.jsx');
 
 function App() {
     return <Router>
         <Header/>
-        <div className="test__block">
-            <h2>Hello, World!</h2>
-        </div>
         <Routes>
-
+            <Route path='/' element={<HomePage/>} />
         </Routes>
     </Router>
 }

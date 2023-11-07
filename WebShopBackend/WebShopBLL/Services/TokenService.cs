@@ -4,6 +4,7 @@
     using System;
     using System.IdentityModel.Tokens.Jwt;
     using System.Security.Claims;
+    using System.Security.Cryptography;
     using WebShopBLL.DTO;
     using WebShopBLL.Services.Interfaces;
 
@@ -16,7 +17,7 @@
             _tokenConfig = tokenConfigurationService;
         }
 
-        public string CreateToken(UserDTO userDTO)
+        public string GenerateAccessToken(UserDTO userDTO)
         {
             var claims = new List<Claim>
             {
@@ -35,6 +36,16 @@
                 expires: DateTime.UtcNow.AddMinutes(60),
                 signingCredentials: new SigningCredentials(_tokenConfig.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
             return new JwtSecurityTokenHandler().WriteToken(jwt);
+        }
+
+        public string GenerateRefreshToken(UserDTO userDTO)
+        {
+            var randomNumber = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber);
+            }
         }
 
         public bool ValidateToken(string token)

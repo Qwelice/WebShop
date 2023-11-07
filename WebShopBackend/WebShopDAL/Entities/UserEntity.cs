@@ -10,6 +10,7 @@
         public virtual string LastName { get; set;}
         public virtual IList<RoleEntity> Roles { get; set; }
         public virtual string RefreshToken { get; set; }
+        public virtual DateTime RefreshTokenExpiryTime { get; set; }
         public UserEntity() 
         {
             Roles = new List<RoleEntity>();

@@ -17,6 +17,7 @@
             Map(x => x.FirstName).Nullable();
             Map(x => x.LastName).Nullable();
             Map(x => x.RefreshToken).Not.Nullable();
+            Map(x => x.RefreshTokenExpiryTime.ToUniversalTime()).Not.Nullable();
             HasManyToMany(x => x.Roles)
                 .Cascade.SaveUpdate()
                 .Table("users_roles");

@@ -1,3 +1,5 @@
+using WebShopApi.Middlewares;
+
 namespace WebShopApi
 {
     public class Program
@@ -16,6 +18,9 @@ namespace WebShopApi
             app.MapControllers();
 
             app.MapFallbackToFile("/index.html");
+
+            app.UseMiddleware<JwtTokenValidationMiddleware>();
+            app.UseMiddleware<JwtCookieAuthorizeMiddleware>();
 
             app.UseAuthentication();
             app.UseAuthorization();

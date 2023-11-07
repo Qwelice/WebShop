@@ -72,3 +72,5 @@ function tryLogin() {
     }
   };
 }
+
+module.exports = {register, login, logout, tryLogin};

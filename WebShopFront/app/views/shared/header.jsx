@@ -3,6 +3,8 @@ const { Navbar, Nav, Form, Button, Container, NavDropdown, Offcanvas, Row, Col }
 const { LinkContainer } = require('react-router-bootstrap');
 const { Link } = require('react-router-dom');
 
+const RegisterForm = require('../forms/register.form.jsx');
+
 function Header(props) {
     const [searchShow, setSearchShow] = React.useState(false);
     const [registerShow, setRegisterShow] = React.useState(false);
@@ -53,27 +55,7 @@ function Header(props) {
                     <Offcanvas.Title>Регистрация</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                    <Form>
-                        <Row className='mb-4'>
-                            <Form.Group as={Col}>
-                                <Form.Label>Введите почту</Form.Label>
-                                <Form.Control type='email' placeholder='E-mail' />
-                            </Form.Group>
-                        </Row>
-                        <Row className='mb-4'>
-                            <Form.Group as={Col}>
-                                <Form.Label>Введите пароль</Form.Label>
-                                <Form.Control type='text' placeholder='Пароль' />
-                            </Form.Group>
-
-                        </Row>
-                        <Row className='mb-4'>
-                            <Form.Group as={Col}>
-                                <Form.Label>Подтвердите пароль</Form.Label>
-                                <Form.Control type='text' placeholder='Подтверждение пароля' />
-                            </Form.Group>
-                        </Row>
-                    </Form>
+                    <RegisterForm />
                 </Offcanvas.Body>
             </Offcanvas>
         </Navbar>

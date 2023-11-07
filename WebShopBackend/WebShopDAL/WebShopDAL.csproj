@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="FluentNHibernate" Version="3.3.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.VsixColorCompiler" Version="17.0.31709.430" />
     <PackageReference Include="Npgsql" Version="7.0.6" />
   </ItemGroup>
 

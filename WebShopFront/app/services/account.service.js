@@ -1,8 +1,8 @@
-const config = require('../helpers/config');
+const API = require('../helpers/apiConfig');
 const {fulfilledHandler, rejectedHandler} = require('../helpers/response.handler');
 
 /**
- * @returns {Promise<{ token: string } | string>} в случае успеха возвращает объект с токеном, в случае провала строку ошибки 
+ * @returns {Promise<{ authenticated: boolean } | string>} в случае успеха возвращает объект с токеном, в случае провала строку ошибки 
  */
 function register(email, password){
     const requestOptions = {
@@ -14,11 +14,11 @@ function register(email, password){
         })
     };
 
-    return fetch(config.apiUrl() + '/api/users/registration', requestOptions).then(fulfilledHandler, rejectedHandler);
+    return fetch(API.BASE_URL + API.AUTH_REGISTER_ENDP, requestOptions).then(fulfilledHandler, rejectedHandler);
 }
 
 /**
- * @returns {Promise<{ token: string } | string>} в случае успеха возвращает объект с токеном, в случае провала строку ошибки
+ * @returns {Promise<{ authenticated: boolean } | string>} в случае успеха возвращает объект с токеном, в случае провала строку ошибки
  */
 function login(email, password){
     const requestOptions = {
@@ -30,7 +30,15 @@ function login(email, password){
         })
     };
 
-    return fetch(config.apiUrl() + '/api/users/auth', requestOptions).then(fulfilledHandler, rejectedHandler);
+    return fetch(API.BASE_URL + API.AUTH_LOGIN_ENDP, requestOptions).then(fulfilledHandler, rejectedHandler);
 }
 
-module.exports = {register, login};
+function logout(){
+    const requestOptions = {
+        method: 'GET'
+    }
+
+    fetch(API.BASE_URL + API.AUTH_LOGOUT_ENDP, requestOptions);
+}
+
+module.exports = {register, login, logout};

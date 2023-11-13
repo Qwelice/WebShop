@@ -1,0 +1,97 @@
+html{
+    font-size: 16px;
+}
+
+html, body{
+    height: 100%;
+}
+
+.wrapper{
+    display: flex;
+    min-height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.content{
+    flex: 1 1 auto;
+}
+
+.navbar{
+    background-color: #F8F8F8;
+}
+
+.navbar-brand{
+    color: #757575;
+}
+
+.form-container{
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    &__body{
+        margin: 0 auto;
+        max-width: 55%;
+        min-height: 30%;
+        padding: 2rem;
+        background-color: #F8F8F8;
+        border-radius: 0.5rem;
+        color: #757575;
+    }
+}
+
+.btn.login-button{
+    background-color: transparent;
+    border-radius: 0.5rem;
+    border: 0.1875rem solid #FF69AA;
+    align-self: center;
+    color: #FF69AA;
+    min-width: 100%;
+    &:hover{
+        color: white;
+        background-color: #FF69AA;
+        border-color: #FF69AA;
+    }
+    &:active{
+        background-color: #e45090;
+        border-color: #e45090;
+        color: white;
+    }
+}
+
+.floating-button{
+    position: fixed;
+    top: 5rem;
+    left: 2rem;
+    min-width: 3rem;
+}
+
+.home{
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    &__body{
+        margin: 0 auto;
+    }
+}
+
+.new-category{
+    flex: 1 1 auto;
+    &__body{
+        display: flex;
+        flex-direction: column;
+        margin: 1rem auto;
+    }
+    &__header{
+        text-align: center;
+        font-weight: 600;
+        font-size: 1.5rem;
+        color: #757575;
+    }
+    &__form{
+        display: flex;
+        flex-direction: column;
+        max-width: 65%;
+    }
+}

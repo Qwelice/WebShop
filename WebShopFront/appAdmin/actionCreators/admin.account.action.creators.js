@@ -7,10 +7,10 @@ function login(email, password) {
     adminAccountService.login(email, password).then(
       (response) => {
         const authenticated = response.authenticated;
+        const email = response.email;
         if (authenticated && authenticated == true) {
           localStorage.setItem("authenticated", "yes");
           localStorage.setItem('email', email);
-          const email = response.email;
           dispatch(
             adminAccountActions.loginSuccess(false, true, false, "", email)
           );
@@ -42,9 +42,9 @@ function tryLogin() {
     const authenticated = localStorage.getItem("authenticated");
     const email = localStorage.getItem('email');
     if (authenticated && authenticated == "yes" && email) {
-      dispatch(accountActions.loginSuccess(false, true, false, "", email));
+      dispatch(adminAccountActions.loginSuccess(false, true, false, "", email));
     } else {
-      dispatch(accountActions.loginFailure(false, false, false, "", ""));
+      dispatch(adminAccountActions.loginFailure(false, false, false, "", ""));
     }
   };
 }

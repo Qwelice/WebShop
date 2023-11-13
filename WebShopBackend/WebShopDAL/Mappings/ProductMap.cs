@@ -7,6 +7,7 @@
     {
         public ProductMap()
         {
+            Table("products");
             Id(x => x.Id)
                 .GeneratedBy.Guid();
             Map(x => x.Name);

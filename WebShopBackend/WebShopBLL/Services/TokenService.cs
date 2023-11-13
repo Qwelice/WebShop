@@ -26,7 +26,7 @@
 
             foreach (var role in userDTO.Roles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role.Name));
+                claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, role.Name));
             }
 
             var jwt = new JwtSecurityToken(

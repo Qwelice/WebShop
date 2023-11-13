@@ -4,6 +4,7 @@
     using WebShopApi.Models;
     using WebShopBLL.DTO;
     using WebShopBLL.Services.Interfaces;
+    using WebShopDAL.Enums;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -28,6 +29,7 @@
                     return BadRequest("Пользователь с таким E-mail уже существует");
                 }
                 var user = new UserDTO { Email = model.Email, Password = model.Password };
+                user.Roles.Add(new RoleDTO(RoleTypes.User));
                 var accessToken = _tokenService.GenerateAccessToken(user);
                 var refreshToken = _tokenService.GenerateRefreshToken(user);
                 user.RefreshToken = refreshToken;
@@ -66,6 +68,8 @@
                 {
                     return Unauthorized("Некорректные данные");
                 }
+                var roles = await _userService.GetUserRolesAsync(user);
+                user.Roles = roles;
                 var accessToken = _tokenService.GenerateAccessToken(user);
                 var refreshToken = _tokenService.GenerateRefreshToken(user);
                 var entity = await _userService.GetUserByEmailAsync(user.Email);

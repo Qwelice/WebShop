@@ -11,5 +11,6 @@
         public Task UpdateUserAsync(UserDTO userDTO);
         public bool Authenticate(UserDTO userDTO);
         public bool IsExists(UserDTO userDTO);
+        public Task<IList<RoleDTO>> GetUserRolesAsync(UserDTO userDTO);
     }
 }

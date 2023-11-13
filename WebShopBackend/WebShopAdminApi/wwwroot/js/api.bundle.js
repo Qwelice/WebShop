@@ -1203,7 +1203,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \******************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("const adminAccountActions = __webpack_require__(/*! ../actions/admin.account.actions */ \"./appAdmin/actions/admin.account.actions.js\");\nconst adminAccountService = __webpack_require__(/*! ../services/admin.account.service */ \"./appAdmin/services/admin.account.service.js\");\nfunction login(email, password) {\n  return dispatch => {\n    dispatch(adminAccountActions.loginRequest(true, false, false, \"\", \"\"));\n    adminAccountService.login(email, password).then(response => {\n      const authenticated = response.authenticated;\n      if (authenticated && authenticated == true) {\n        localStorage.setItem(\"authenticated\", \"yes\");\n        localStorage.setItem('email', email);\n        const email = response.email;\n        dispatch(adminAccountActions.loginSuccess(false, true, false, \"\", email));\n      } else {\n        localStorage.setItem(\"authenticated\", \"no\");\n        dispatch(adminAccountActions.loginFailure(false, false, true, response, \"\"));\n      }\n    }, error => {\n      dispatch(adminAccountActions.loginFailure(false, false, true, error, \"\"));\n    });\n  };\n}\nfunction logout() {\n  return dispatch => {\n    dispatch(adminAccountActions.logout(false, false, false, \"\", \"\"));\n    localStorage.removeItem('authenticated');\n  };\n}\nfunction tryLogin() {\n  return dispatch => {\n    const authenticated = localStorage.getItem(\"authenticated\");\n    const email = localStorage.getItem('email');\n    if (authenticated && authenticated == \"yes\" && email) {\n      dispatch(accountActions.loginSuccess(false, true, false, \"\", email));\n    } else {\n      dispatch(accountActions.loginFailure(false, false, false, \"\", \"\"));\n    }\n  };\n}\nmodule.exports = {\n  login,\n  logout,\n  tryLogin\n};\n\n//# sourceURL=webpack://webshopfront/./appAdmin/actionCreators/admin.account.action.creators.js?");
+eval("const adminAccountActions = __webpack_require__(/*! ../actions/admin.account.actions */ \"./appAdmin/actions/admin.account.actions.js\");\nconst adminAccountService = __webpack_require__(/*! ../services/admin.account.service */ \"./appAdmin/services/admin.account.service.js\");\nfunction login(email, password) {\n  return dispatch => {\n    dispatch(adminAccountActions.loginRequest(true, false, false, \"\", \"\"));\n    adminAccountService.login(email, password).then(response => {\n      const authenticated = response.authenticated;\n      const email = response.email;\n      if (authenticated && authenticated == true) {\n        localStorage.setItem(\"authenticated\", \"yes\");\n        localStorage.setItem('email', email);\n        dispatch(adminAccountActions.loginSuccess(false, true, false, \"\", email));\n      } else {\n        localStorage.setItem(\"authenticated\", \"no\");\n        dispatch(adminAccountActions.loginFailure(false, false, true, response, \"\"));\n      }\n    }, error => {\n      dispatch(adminAccountActions.loginFailure(false, false, true, error, \"\"));\n    });\n  };\n}\nfunction logout() {\n  return dispatch => {\n    dispatch(adminAccountActions.logout(false, false, false, \"\", \"\"));\n    localStorage.removeItem('authenticated');\n  };\n}\nfunction tryLogin() {\n  return dispatch => {\n    const authenticated = localStorage.getItem(\"authenticated\");\n    const email = localStorage.getItem('email');\n    if (authenticated && authenticated == \"yes\" && email) {\n      dispatch(adminAccountActions.loginSuccess(false, true, false, \"\", email));\n    } else {\n      dispatch(adminAccountActions.loginFailure(false, false, false, \"\", \"\"));\n    }\n  };\n}\nmodule.exports = {\n  login,\n  logout,\n  tryLogin\n};\n\n//# sourceURL=webpack://webshopfront/./appAdmin/actionCreators/admin.account.action.creators.js?");
+
+/***/ }),
+
+/***/ "./appAdmin/actionCreators/admin.action.creators.js":
+/*!**********************************************************!*\
+  !*** ./appAdmin/actionCreators/admin.action.creators.js ***!
+  \**********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("const categoryActions = __webpack_require__(/*! ../actions/category.actions */ \"./appAdmin/actions/category.actions.js\");\nconst adminService = __webpack_require__(/*! ../services/admin.service */ \"./appAdmin/services/admin.service.js\");\nfunction newCategory(categoryName) {\n  return dispatch => {\n    dispatch(categoryActions.newCategoryRequest([], false, \"\"));\n    adminService.newCategory(categoryName).then(response => {\n      const succeed = response.succeed;\n      if (succeed && succeed == true) {\n        const category = response.category;\n        dispatch(categoryActions.newCategorySuccess([category], false, \"\"));\n      } else {\n        dispatch(categoryActions.newCategoryFailure([], true, response));\n      }\n    }, error => {\n      dispatch(categoryActions.newCategoryFailure([], true, error));\n    });\n  };\n}\nmodule.exports = {\n  newCategory\n};\n\n//# sourceURL=webpack://webshopfront/./appAdmin/actionCreators/admin.action.creators.js?");
 
 /***/ }),
 
@@ -1217,6 +1227,16 @@ eval("const adminAccountConstants = __webpack_require__(/*! ../constants/admin.a
 
 /***/ }),
 
+/***/ "./appAdmin/actions/category.actions.js":
+/*!**********************************************!*\
+  !*** ./appAdmin/actions/category.actions.js ***!
+  \**********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("const adminConstants = __webpack_require__(/*! ../constants/admin.constants */ \"./appAdmin/constants/admin.constants.js\");\nconst newCategoryRequest = (categories, failed, error) => {\n  return {\n    type: adminConstants.NEW_CATEGORY_REQUEST,\n    payload: {\n      categories,\n      failed,\n      error\n    }\n  };\n};\nconst newCategorySuccess = (categories, failed, error) => {\n  return {\n    type: adminConstants.NEW_CATEGORY_SUCCESS,\n    payload: {\n      categories,\n      failed,\n      error\n    }\n  };\n};\nconst newCategoryFailure = (categories, failed, error) => {\n  return {\n    type: adminConstants.NEW_CATEGORY_FAILURE,\n    payload: {\n      categories,\n      failed,\n      error\n    }\n  };\n};\nconst categoryListRequest = (categories, failed, error) => {\n  return {\n    type: adminConstants.CATEGORY_LIST_REQUEST,\n    payload: {\n      categories,\n      failed,\n      error\n    }\n  };\n};\nconst categoryListSuccess = (categories, failed, error) => {\n  return {\n    type: adminConstants.CATEGORY_LIST_SUCCESS,\n    payload: {\n      categories,\n      failed,\n      error\n    }\n  };\n};\nconst categoryListFailure = (categories, failed, error) => {\n  return {\n    type: adminConstants.CATEGORY_LIST_FAILURE,\n    payload: {\n      categories,\n      failed,\n      error\n    }\n  };\n};\nmodule.exports = {\n  newCategoryRequest,\n  newCategorySuccess,\n  newCategoryFailure,\n  categoryListRequest,\n  categoryListSuccess,\n  categoryListFailure\n};\n\n//# sourceURL=webpack://webshopfront/./appAdmin/actions/category.actions.js?");
+
+/***/ }),
+
 /***/ "./appAdmin/constants/admin.account.constants.js":
 /*!*******************************************************!*\
   !*** ./appAdmin/constants/admin.account.constants.js ***!
@@ -1227,13 +1247,23 @@ eval("const adminAccountConstants = {\n  LOGIN_REQUEST: 'ADMIN_LOGIN_REQUEST',\n
 
 /***/ }),
 
+/***/ "./appAdmin/constants/admin.constants.js":
+/*!***********************************************!*\
+  !*** ./appAdmin/constants/admin.constants.js ***!
+  \***********************************************/
+/***/ ((module) => {
+
+eval("const adminConstants = {\n  NEW_CATEGORY_REQUEST: 'ADMIN_NEW_CATEGORY_REQUEST',\n  NEW_CATEGORY_SUCCESS: 'ADMIN_NEW_CATEGORY_SUCCESS',\n  NEW_CATEGORY_FAILURE: 'ADMIN_NEW_CATEGORY_FAILURE',\n  CATEGORY_LIST_REQUEST: 'ADMIN_CATEGORY_LIST_REQUEST',\n  CATEGORY_LIST_SUCCESS: 'ADMIN_CATEGORY_LIST_SUCCESS',\n  CATEGORY_LIST_FAILURE: 'ADMIN_CATEGORY_LIST_FAILURE'\n};\nmodule.exports = adminConstants;\n\n//# sourceURL=webpack://webshopfront/./appAdmin/constants/admin.constants.js?");
+
+/***/ }),
+
 /***/ "./appAdmin/helpers/api.config.js":
 /*!****************************************!*\
   !*** ./appAdmin/helpers/api.config.js ***!
   \****************************************/
 /***/ ((module) => {
 
-eval("const API = {\n  BASE_URL: '',\n  AUTH_LOGIN_ENDP: '/api/adminauth/login'\n};\nmodule.exports = API;\n\n//# sourceURL=webpack://webshopfront/./appAdmin/helpers/api.config.js?");
+eval("const API = {\n  BASE_URL: '',\n  AUTH_LOGIN_ENDP: '/api/adminauth/login',\n  ADMIN_NEW_CATEGORY_ENDP: '/api/admin/newcategory'\n};\nmodule.exports = API;\n\n//# sourceURL=webpack://webshopfront/./appAdmin/helpers/api.config.js?");
 
 /***/ }),
 
@@ -1268,13 +1298,23 @@ eval("const adminConstants = __webpack_require__(/*! ../constants/admin.account.
 
 /***/ }),
 
+/***/ "./appAdmin/reducers/category.reducer.js":
+/*!***********************************************!*\
+  !*** ./appAdmin/reducers/category.reducer.js ***!
+  \***********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("const adminConstants = __webpack_require__(/*! ../constants/admin.constants */ \"./appAdmin/constants/admin.constants.js\");\nlet initState = {\n  categories: [],\n  failed: false,\n  error: \"\"\n};\nfunction category(state = initState, action) {\n  switch (action.type) {\n    case adminConstants.NEW_CATEGORY_REQUEST:\n      return {\n        categories: [...state.categories, action.payload.categories],\n        ...state,\n        ...action.payload\n      };\n    case adminConstants.NEW_CATEGORY_FAILURE:\n      return {\n        categories: [...state.categories, action.payload.categories],\n        ...state,\n        ...action.payload\n      };\n    case adminConstants.NEW_CATEGORY_SUCCESS:\n      return {\n        categories: [...state.categories, action.payload.categories],\n        ...state,\n        ...action.payload\n      };\n    case adminConstants.CATEGORY_LIST_REQUEST:\n      return {\n        categories: [...state.categories, action.payload.categories],\n        ...state,\n        ...action.payload\n      };\n    case adminConstants.CATEGORY_LIST_SUCCESS:\n      return {\n        categories: [...state.categories, action.payload.categories],\n        ...state,\n        ...action.payload\n      };\n    case adminConstants.CATEGORY_LIST_FAILURE:\n      return {\n        categories: [...state.categories, action.payload.categories],\n        ...state,\n        ...action.payload\n      };\n    default:\n      return state;\n  }\n}\nmodule.exports = category;\n\n//# sourceURL=webpack://webshopfront/./appAdmin/reducers/category.reducer.js?");
+
+/***/ }),
+
 /***/ "./appAdmin/reducers/root.reducer.js":
 /*!*******************************************!*\
   !*** ./appAdmin/reducers/root.reducer.js ***!
   \*******************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("const adminAccountReducer = __webpack_require__(/*! ./admin.account.reducer */ \"./appAdmin/reducers/admin.account.reducer.js\");\nconst rootReducer = {\n  reducer: {\n    adminAccount: adminAccountReducer\n  }\n};\nmodule.exports = rootReducer;\n\n//# sourceURL=webpack://webshopfront/./appAdmin/reducers/root.reducer.js?");
+eval("const adminAccountReducer = __webpack_require__(/*! ./admin.account.reducer */ \"./appAdmin/reducers/admin.account.reducer.js\");\nconst categoryReducer = __webpack_require__(/*! ./category.reducer */ \"./appAdmin/reducers/category.reducer.js\");\nconst rootReducer = {\n  reducer: {\n    adminAccount: adminAccountReducer,\n    category: categoryReducer\n  }\n};\nmodule.exports = rootReducer;\n\n//# sourceURL=webpack://webshopfront/./appAdmin/reducers/root.reducer.js?");
 
 /***/ }),
 
@@ -1285,6 +1325,16 @@ eval("const adminAccountReducer = __webpack_require__(/*! ./admin.account.reduce
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 eval("const {\n  fulfilledHandler,\n  rejectedHandler\n} = __webpack_require__(/*! ../../app/helpers/response.handler */ \"./app/helpers/response.handler.js\");\nconst API = __webpack_require__(/*! ../helpers/api.config */ \"./appAdmin/helpers/api.config.js\");\nfunction login(email, password) {\n  const requestOptions = {\n    method: 'POST',\n    headers: {\n      'Content-Type': 'application/json'\n    },\n    body: JSON.stringify({\n      email: email,\n      password: password\n    })\n  };\n  return fetch(API.BASE_URL + API.AUTH_LOGIN_ENDP, requestOptions).then(fulfilledHandler, rejectedHandler);\n}\nmodule.exports = {\n  login\n};\n\n//# sourceURL=webpack://webshopfront/./appAdmin/services/admin.account.service.js?");
+
+/***/ }),
+
+/***/ "./appAdmin/services/admin.service.js":
+/*!********************************************!*\
+  !*** ./appAdmin/services/admin.service.js ***!
+  \********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("const {\n  fulfilledHandler,\n  rejectedHandler\n} = __webpack_require__(/*! ../../app/helpers/response.handler */ \"./app/helpers/response.handler.js\");\nconst API = __webpack_require__(/*! ../helpers/api.config */ \"./appAdmin/helpers/api.config.js\");\nfunction newCategory(categoryName) {\n  const requestOptions = {\n    method: 'POST',\n    headers: {\n      'Content-Type': 'application/json'\n    },\n    body: JSON.stringify({\n      categoryName\n    })\n  };\n  return fetch(API.BASE_URL + API.ADMIN_NEW_CATEGORY_ENDP, requestOptions).then(fulfilledHandler, rejectedHandler);\n}\nmodule.exports = {\n  newCategory\n};\n\n//# sourceURL=webpack://webshopfront/./appAdmin/services/admin.service.js?");
 
 /***/ }),
 
@@ -1324,7 +1374,7 @@ eval("const React = __webpack_require__(/*! react */ \"./node_modules/react/inde
   \***************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("const React = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\nconst {\n  useState,\n  useEffect\n} = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\nconst {\n  Form,\n  Row,\n  Col,\n  Button\n} = __webpack_require__(/*! react-bootstrap */ \"./node_modules/react-bootstrap/esm/index.js\");\nconst NavPanel = __webpack_require__(/*! ../shared/nav.panel.jsx */ \"./appAdmin/views/shared/nav.panel.jsx\");\nfunction NewCategoryPage(props) {\n  const [validated, setValid] = useState(false);\n  const handleSubmit = e => {\n    e.preventDefault();\n  };\n  return /*#__PURE__*/React.createElement(\"div\", {\n    className: \"new-category\"\n  }, /*#__PURE__*/React.createElement(\"div\", {\n    className: \"new-category__body\"\n  }, /*#__PURE__*/React.createElement(NavPanel, null), /*#__PURE__*/React.createElement(\"div\", {\n    className: \"new-category__header\"\n  }, \"\\u0414\\u043E\\u0431\\u0430\\u0432\\u043B\\u0435\\u043D\\u0438\\u0435 \\u043D\\u043E\\u0432\\u043E\\u0439 \\u043A\\u0430\\u0442\\u0435\\u0433\\u043E\\u0440\\u0438\\u0438\"), /*#__PURE__*/React.createElement(\"div\", {\n    className: \"form-container\"\n  }, /*#__PURE__*/React.createElement(Form, {\n    noValidate: true,\n    validated: validated,\n    onSubmit: handleSubmit\n  }, /*#__PURE__*/React.createElement(\"div\", {\n    className: \"form-container__body\"\n  }, /*#__PURE__*/React.createElement(Row, null, /*#__PURE__*/React.createElement(\"div\", {\n    className: \"error__text text-danger\"\n  })), /*#__PURE__*/React.createElement(Row, null, /*#__PURE__*/React.createElement(Form.Group, {\n    as: Col\n  }, /*#__PURE__*/React.createElement(Form.Label, null, \"\\u041D\\u0430\\u0437\\u0432\\u0430\\u043D\\u0438\\u0435 \\u043A\\u0430\\u0442\\u0435\\u0433\\u043E\\u0440\\u0438\\u0438\"), /*#__PURE__*/React.createElement(Form.Control, {\n    type: \"text\",\n    className: \"mb-3\",\n    required: true\n  }), /*#__PURE__*/React.createElement(Button, {\n    type: \"submit\",\n    className: \"btn login-button\"\n  }, \"\\u0417\\u0430\\u0440\\u0435\\u0433\\u0438\\u0441\\u0442\\u0440\\u0438\\u0440\\u043E\\u0432\\u0430\\u0442\\u044C\"))))))));\n}\nmodule.exports = NewCategoryPage;\n\n//# sourceURL=webpack://webshopfront/./appAdmin/views/home/new.category.page.jsx?");
+eval("const React = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\nconst {\n  useState,\n  useEffect\n} = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\nconst {\n  Form,\n  Row,\n  Col,\n  Button\n} = __webpack_require__(/*! react-bootstrap */ \"./node_modules/react-bootstrap/esm/index.js\");\nconst NavPanel = __webpack_require__(/*! ../shared/nav.panel.jsx */ \"./appAdmin/views/shared/nav.panel.jsx\");\nconst {\n  useNavigate\n} = __webpack_require__(/*! react-router */ \"./node_modules/react-router/dist/index.js\");\nconst {\n  useSelector,\n  useDispatch\n} = __webpack_require__(/*! react-redux */ \"./node_modules/react-redux/es/index.js\");\nconst adminActionCreators = __webpack_require__(/*! ../../actionCreators/admin.action.creators */ \"./appAdmin/actionCreators/admin.action.creators.js\");\nfunction NewCategoryPage(props) {\n  const navigate = useNavigate();\n  const dispatch = useDispatch();\n  const adminAccount = useSelector(state => state.adminAccount);\n  const categoryState = useSelector(state => state.category);\n  const [validated, setValid] = useState(false);\n  const [category, setCategory] = useState(\"\");\n  useEffect(() => {\n    if (!adminAccount.logged) {\n      navigate('/');\n    }\n  }, []);\n  const onCategoryChange = e => {\n    var val = e.target.value;\n    setCategory(val);\n  };\n  const handleSubmit = e => {\n    e.preventDefault();\n    dispatch(adminActionCreators.newCategory(category));\n  };\n  return /*#__PURE__*/React.createElement(\"div\", {\n    className: \"new-category\"\n  }, /*#__PURE__*/React.createElement(\"div\", {\n    className: \"new-category__body\"\n  }, /*#__PURE__*/React.createElement(NavPanel, null), /*#__PURE__*/React.createElement(\"div\", {\n    className: \"new-category__header\"\n  }, \"\\u0414\\u043E\\u0431\\u0430\\u0432\\u043B\\u0435\\u043D\\u0438\\u0435 \\u043D\\u043E\\u0432\\u043E\\u0439 \\u043A\\u0430\\u0442\\u0435\\u0433\\u043E\\u0440\\u0438\\u0438\"), /*#__PURE__*/React.createElement(\"div\", {\n    className: \"form-container\"\n  }, /*#__PURE__*/React.createElement(Form, {\n    noValidate: true,\n    validated: validated,\n    onSubmit: handleSubmit\n  }, /*#__PURE__*/React.createElement(\"div\", {\n    className: \"form-container__body\"\n  }, /*#__PURE__*/React.createElement(Row, null, /*#__PURE__*/React.createElement(\"div\", {\n    className: \"error__text text-danger\"\n  }, categoryState.error)), /*#__PURE__*/React.createElement(Row, null, /*#__PURE__*/React.createElement(Form.Group, {\n    as: Col\n  }, /*#__PURE__*/React.createElement(Form.Label, null, \"\\u041D\\u0430\\u0437\\u0432\\u0430\\u043D\\u0438\\u0435 \\u043A\\u0430\\u0442\\u0435\\u0433\\u043E\\u0440\\u0438\\u0438\"), /*#__PURE__*/React.createElement(Form.Control, {\n    type: \"text\",\n    className: \"mb-3\",\n    value: category,\n    onChange: onCategoryChange,\n    required: true\n  }), /*#__PURE__*/React.createElement(Button, {\n    type: \"submit\",\n    className: \"btn login-button\"\n  }, \"\\u0417\\u0430\\u0440\\u0435\\u0433\\u0438\\u0441\\u0442\\u0440\\u0438\\u0440\\u043E\\u0432\\u0430\\u0442\\u044C\"))))))));\n}\nmodule.exports = NewCategoryPage;\n\n//# sourceURL=webpack://webshopfront/./appAdmin/views/home/new.category.page.jsx?");
 
 /***/ }),
 

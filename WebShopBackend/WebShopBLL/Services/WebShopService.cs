@@ -1,6 +1,7 @@
 ﻿namespace WebShopBLL.Services
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using WebShopBLL.DTO;
@@ -48,6 +49,17 @@
         public Task DeleteProduct(ProductDTO product)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IList<CategoryDTO>> GetAllCategoriesAsync()
+        {
+            var result = new List<CategoryDTO>();
+            var categories = await _unitOfWork.Categories.GetAllAsync();
+            foreach (var category in categories)
+            {
+                result.Add(new CategoryDTO() { Id = category.Id, Name = category.Name });
+            }
+            return result;
         }
     }
 }

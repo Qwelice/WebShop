@@ -3,7 +3,6 @@
     using Microsoft.AspNetCore.Mvc;
     using WebShopApi.Models;
     using WebShopBLL.DTO;
-    using WebShopBLL.Services;
     using WebShopBLL.Services.Interfaces;
 
     [Route("api/[controller]")]
@@ -33,6 +32,12 @@
                 {
                     return Unauthorized("Неверный пароль");
                 }
+                var roles = await _userService.GetUserRolesAsync(user);
+                if(!roles.Where(r => r.Name == "admin").Any())
+                {
+                    return Unauthorized("Пользователь не является администратором");
+                }
+                user.Roles = roles;
                 var accessToken = _tokenService.GenerateAccessToken(user);
                 var refreshToken = _tokenService.GenerateRefreshToken(user);
                 var entity = await _userService.GetUserByEmailAsync(user.Email);

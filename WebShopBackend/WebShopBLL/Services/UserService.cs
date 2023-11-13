@@ -1,6 +1,7 @@
 ﻿namespace WebShopBLL.Services
 {
     using System;
+    using System.Collections.Generic;
     using System.Text;
     using System.Threading.Tasks;
     using WebShopBLL.DTO;
@@ -91,6 +92,37 @@
 
                 return user;
             }
+        }
+
+        public async Task<IList<RoleDTO>> GetUserRolesAsync(UserDTO userDTO)
+        {
+            var result = new List<RoleDTO>();
+            if (userDTO.Id != Guid.Empty)
+            {
+                var entity = await _unitOfWork.Users.GetAsync(userDTO.Id);
+                if(entity != null)
+                {
+                    foreach (var role in entity.Roles)
+                    {
+                        var roleDto = new RoleDTO(role.RoleType);
+                        result.Add(roleDto);
+                    }
+                }
+            }
+            else
+            {
+                var resultSet = await _unitOfWork.Users.FindAsync(entity => entity.Email == userDTO.Email);
+                var entity = resultSet.FirstOrDefault();
+                if(entity != null)
+                {
+                    foreach (var role in entity.Roles)
+                    {
+                        var roleDto = new RoleDTO(role.RoleType);
+                        result.Add(roleDto);
+                    }
+                }
+            }
+            return result;
         }
 
         public bool IsExists(UserDTO userDTO)

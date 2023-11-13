@@ -8,7 +8,7 @@
 
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class AdminController : ControllerBase
     {
         private IWebShopService _shopService;
@@ -23,10 +23,24 @@
             if (ModelState.IsValid)
             {
                 var category = new CategoryDTO { Name = model.CategoryName.Trim().ToLower() };
-                await _shopService.CreateNewCategoryAsync(category);
-                return Ok(new { Succeed = true });
+                try
+                {
+                    await _shopService.CreateNewCategoryAsync(category);
+                }catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+                return Ok(new { Succeed = true, Category = category.Name });
             }
             return BadRequest("Некорректные данные");
+        }
+
+        [HttpGet("getcategories")]
+        public async Task<IActionResult> GetCategories()
+        {
+            var categories = await _shopService.GetAllCategoriesAsync();
+            var result = categories.Select(c => new { Id = c.Id, Name = c.Name }).ToList();
+            return Ok(new { Categories = result });
         }
     }
 }

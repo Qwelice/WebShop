@@ -9,5 +9,6 @@
         public Task DeleteCategory(CategoryDTO category);
         public Task CreateNewProduct(ProductDTO product);
         public Task DeleteProduct(ProductDTO product);
+        public Task<IList<CategoryDTO>> GetAllCategoriesAsync();
     }
 }

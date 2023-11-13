@@ -63,39 +63,24 @@ function Header(props) {
                         <Row className='mb-4'>
                             <Form.Group as={Col}>
                                 <Form.Label>Введите пароль</Form.Label>
-                                <Form.Control type='text' placeholder='Пароль' />
+                                <Form.Control type='password' placeholder='Пароль' />
                             </Form.Group>
 
                         </Row>
                         <Row className='mb-4'>
                             <Form.Group as={Col}>
                                 <Form.Label>Подтвердите пароль</Form.Label>
-                                <Form.Control type='text' placeholder='Подтверждение пароля' />
+                                <Form.Control type='password' placeholder='Подтверждение пароля' />
                             </Form.Group>
+                        </Row>
+                        <Row className='mb-4'>
+                            <Col>
+                            <Button type='submit' className='btn btn-secondary'>Зарегистрироваться</Button>
+                            </Col>
                         </Row>
                     </Form>
                 </Offcanvas.Body>
             </Offcanvas>
-        </Navbar>
-    );
-}
-
-function Test(props) {
-    return (
-        <Navbar expand='lg' className='bg-body-light'>
-            <Link to='/'>WebShop</Link>
-
-            <Nav className='me-auto'>
-                <Nav.Item>
-                    <Link><i className="bi bi-person"></i></Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Link><i className="bi bi-bag"></i></Link>
-                </Nav.Item>
-            </Nav>
-            <Navbar.Toggle aria-controls='navbar-expanded-content' />
-            <Navbar.Collapse id='navbar-expanded-content'>
-            </Navbar.Collapse>
         </Navbar>
     );
 }

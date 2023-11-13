@@ -6,6 +6,7 @@
     using WebShopBLL.DTO;
     using WebShopBLL.Services.Interfaces;
     using WebShopDAL.Entities;
+    using WebShopDAL.Enums;
     using WebShopDAL.Infrastructure;
 
     public class UserService : IUserService
@@ -62,6 +63,36 @@
             }
         }
 
+        public async Task<UserDTO?> GetUserByRefreshTokenAsync(string refreshToken)
+        {
+            var result = await _unitOfWork.Users.FindAsync(e => e.RefreshToken == refreshToken);
+            var entity = result.FirstOrDefault();
+            if(entity == null)
+            {
+                return null;
+            }
+            else
+            {
+                var user = new UserDTO()
+                {
+                    Id = entity.Id,
+                    Email = entity.Email,
+                    FirstName = entity.FirstName,
+                    LastName = entity.LastName,
+                    Username = entity.Username,
+                    RefreshToken = entity.RefreshToken,
+                    RefreshTokenExpiryTime = entity.RefreshTokenExpiryTime
+                };
+
+                foreach(var role in entity.Roles)
+                {
+                    user.Roles.Add(new RoleDTO(role.RoleType));
+                }
+
+                return user;
+            }
+        }
+
         public bool IsExists(UserDTO userDTO)
         {
             var user = _unitOfWork.Users.Find(entity => entity.Email == userDTO.Email).FirstOrDefault();
@@ -80,12 +111,15 @@
             byte[] passwordHash, passwordSalt;
             GeneratePasswordHash(newUser.Password, out passwordHash, out passwordSalt);
 
+            var userRole = (await _unitOfWork.Roles.FindAsync(entity => entity.RoleType == RoleTypes.User)).First();
+
             var newEntity = new UserEntity();
             newEntity.Email = userDTO.Email;
             newEntity.PasswordHash = passwordHash;
             newEntity.PasswordSalt = passwordSalt;
             newEntity.RefreshToken = userDTO.RefreshToken;
             newEntity.RefreshTokenExpiryTime = userDTO.RefreshTokenExpiryTime;
+            newEntity.Roles.Add(userRole);
             await _unitOfWork.Users.SaveAsync(newEntity);
         }
 

@@ -1,5 +1,9 @@
+const adminAccountReducer = require('./admin.account.reducer');
+
 const rootReducer = {
-    reducer: {}
+    reducer: {
+        adminAccount: adminAccountReducer
+    }
 }
 
 module.exports = rootReducer;

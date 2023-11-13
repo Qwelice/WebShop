@@ -1,13 +1,29 @@
 const React = require('react');
+const {useState, useEffect} = require('react');
 const { Navbar, Nav, Form, Button, Container, NavDropdown, Offcanvas, Row, Col } = require('react-bootstrap');
 const { LinkContainer } = require('react-router-bootstrap');
-const { Link } = require('react-router-dom');
+const { Link, useNavigate } = require('react-router-dom');
+const {useSelector, useDispatch} = require('react-redux')
 
-const RegisterForm = require('../forms/register.form.jsx');
+const RegisterForm = require('../user/register.form.jsx');
+const LoginForm = require('../user/login.form.jsx');
+
+const accountActionCreators = require('../../actionCreators/account.action.creators');
 
 function Header(props) {
-    const [searchShow, setSearchShow] = React.useState(false);
-    const [registerShow, setRegisterShow] = React.useState(false);
+    const navigage = useNavigate();
+    const dispatch = useDispatch();
+
+    const account = useSelector((state) => state.account);
+
+    const [searchShow, setSearchShow] = useState(false);
+    const [registerShow, setRegisterShow] = useState(false);
+    const [isLoginType, setLoginType] = useState(true);
+
+    useEffect(() => {
+        dispatch(accountActionCreators.tryLogin());
+    }, 
+    []);
 
     const handleSearchClose = () => setSearchShow(false);
     const handleSearchShow = () => {
@@ -21,6 +37,37 @@ function Header(props) {
         setSearchShow(false);
     }
 
+    const handleProfileButton = () => {
+        if(!account.logged){
+            handleRegisterShow();
+        }
+    }
+
+    const userIcon = (logged) => {
+        if(logged){
+            return <i className='bi bi-person-fill' style={{ fontSize: '1.5rem' }}></i>;
+        }else{
+            return <i className="bi bi-person" style={{ fontSize: '1.5rem' }}></i>;
+        }
+    }
+
+    const userForm = () => {
+        const handleRegisterButton = (type) => setLoginType(type);
+        if(isLoginType){
+            return <LoginForm isLoginType={handleRegisterButton} />
+        }else{
+            return <RegisterForm isLoginType={handleRegisterButton} />
+        }
+    };
+
+    const userOffcanvasTitle = () => {
+        if(isLoginType){
+            return <Offcanvas.Title>Вход в аккаунт</Offcanvas.Title>;
+        }else{
+            return <Offcanvas.Title>Регистрация</Offcanvas.Title>;
+        }
+    }
+
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container fluid>
@@ -32,7 +79,7 @@ function Header(props) {
                         <Nav.Link onClick={handleSearchShow}><i className="bi bi-search" style={{ fontSize: '1.5rem' }}></i></Nav.Link>
                     </LinkContainer>
                     <LinkContainer className='p-2 me-3' to='/'>
-                        <Nav.Link onClick={handleRegisterShow}><i className='bi bi-person' style={{ fontSize: '1.5rem' }}></i></Nav.Link>
+                        <Nav.Link onClick={handleProfileButton}>{userIcon(account.logged)}</Nav.Link>
                     </LinkContainer>
                     <LinkContainer className='p-2 me-3' to='/'>
                         <Nav.Link> <i className="bi bi-cart" style={{ fontSize: '1.5rem' }}></i> </Nav.Link>
@@ -52,32 +99,12 @@ function Header(props) {
             </Offcanvas>
             <Offcanvas show={registerShow} onHide={handleRegisterClose} placement='end'>
                 <Offcanvas.Header closeButton>
-                    <Offcanvas.Title>Регистрация</Offcanvas.Title>
+                    {userOffcanvasTitle()}
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                    <RegisterForm />
+                    {userForm()}
                 </Offcanvas.Body>
             </Offcanvas>
-        </Navbar>
-    );
-}
-
-function Test(props) {
-    return (
-        <Navbar expand='lg' className='bg-body-light'>
-            <Link to='/'>WebShop</Link>
-
-            <Nav className='me-auto'>
-                <Nav.Item>
-                    <Link><i className="bi bi-person"></i></Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Link><i className="bi bi-bag"></i></Link>
-                </Nav.Item>
-            </Nav>
-            <Navbar.Toggle aria-controls='navbar-expanded-content' />
-            <Navbar.Collapse id='navbar-expanded-content'>
-            </Navbar.Collapse>
         </Navbar>
     );
 }

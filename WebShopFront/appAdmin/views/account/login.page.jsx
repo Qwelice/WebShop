@@ -1,15 +1,30 @@
 const React = require('react');
-const { useState } = require('react');
+const { useState, useEffect } = require('react');
 const { Form, Row, Col, Button } = require('react-bootstrap');
+const { useSelector, useDispatch } = require('react-redux');
+const { useNavigate } = require('react-router');
+
+const adminAccountActionCreators = require('../../actionCreators/admin.account.action.creators');
 
 function LoginPage(props) {
-    const [login, setLogin] = useState('');
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const admin = useSelector((state) => state.adminAccount);
+
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [validated, setValid] = useState(false);
 
-    const onLoginChange = (e) => {
+    useEffect(()=>{
+        if(admin.logged){
+            navigate('/');
+        }
+    }, [admin.logged]);
+
+    const onEmailChange = (e) => {
         var val = e.target.value;
-        setLogin(val);
+        setEmail(val);
     }
 
     const onPasswordChange = (e) => {
@@ -17,19 +32,18 @@ function LoginPage(props) {
         setPassword(val);
     }
 
-    const validateLogin = (value) => {
-        var count = value.split('@').length - 1;
-        
-    }
-
     const handleSubmit = (e) => {
         e.preventDefault();
+        dispatch(adminAccountActionCreators.login(email, password));
     }
 
     return (
         <div className='form-container'>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <div className='form-container__body'>
+                    <Row>
+                        <div className="error__text text-danger">{admin.error}</div>
+                    </Row>
                     <Row md={'8'} className='mb-5'>
                         <Col className='text-center'>
                             <h3>Вход в систему</h3>
@@ -37,8 +51,8 @@ function LoginPage(props) {
                     </Row>
                     <Row md={'8'} className='mb-3'>
                         <Form.Group as={Col}>
-                            <Form.Label>Логин (или E-mail)</Form.Label>
-                            <Form.Control type='text' value={login} onChange={onLoginChange} required />
+                            <Form.Label>E-mail</Form.Label>
+                            <Form.Control type='email' value={email} onChange={onEmailChange} required />
                         </Form.Group>
                     </Row>
                     <Row md={'8'} className='mb-5'>

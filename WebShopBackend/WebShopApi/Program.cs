@@ -1,7 +1,9 @@
-using WebShopApi.Middlewares;
-
 namespace WebShopApi
 {
+    using Microsoft.Extensions.DependencyInjection;
+    using WebShopApi.Middlewares;
+    using WebShopBLL.Infrastructure;
+
     public class Program
     {
         public static void Main(string[] args)
@@ -9,6 +11,8 @@ namespace WebShopApi
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();
+
+            builder.Services.AddBLL();
 
             var app = builder.Build();
 
@@ -19,7 +23,7 @@ namespace WebShopApi
 
             app.MapFallbackToFile("/index.html");
 
-            app.UseMiddleware<JwtTokenValidationMiddleware>();
+            app.UseMiddleware<JwtTokenRefreshMiddleware>();
             app.UseMiddleware<JwtCookieAuthorizeMiddleware>();
 
             app.UseAuthentication();

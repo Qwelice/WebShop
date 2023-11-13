@@ -59,3 +59,39 @@ html, body{
         color: white;
     }
 }
+
+.floating-button{
+    position: fixed;
+    top: 5rem;
+    left: 2rem;
+    min-width: 3rem;
+}
+
+.home{
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    &__body{
+        margin: 0 auto;
+    }
+}
+
+.new-category{
+    flex: 1 1 auto;
+    &__body{
+        display: flex;
+        flex-direction: column;
+        margin: 1rem auto;
+    }
+    &__header{
+        text-align: center;
+        font-weight: 600;
+        font-size: 1.5rem;
+        color: #757575;
+    }
+    &__form{
+        display: flex;
+        flex-direction: column;
+        max-width: 65%;
+    }
+}

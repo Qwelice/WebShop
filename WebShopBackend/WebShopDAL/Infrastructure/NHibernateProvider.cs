@@ -1,5 +1,6 @@
 ﻿namespace WebShopDAL.Infrastructure
 {
+    using System.Configuration;
     using FluentNHibernate.Cfg.Db;
     using FluentNHibernate.Cfg;
     using NHibernate;

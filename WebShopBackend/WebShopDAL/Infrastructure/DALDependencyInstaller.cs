@@ -9,7 +9,7 @@
         {
             serviceCollection.AddSingleton<INHibernateProvider, NHibernateProvider>();
             serviceCollection.AddScoped(provider => provider.GetService<INHibernateProvider>()!.OpenSession());
-            serviceCollection.AddScoped<UsersUnitOfWork>();
+            serviceCollection.AddScoped<UnitOfWork>();
         }
     }
 }

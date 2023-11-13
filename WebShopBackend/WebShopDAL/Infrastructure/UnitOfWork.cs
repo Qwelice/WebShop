@@ -4,7 +4,7 @@
     using WebShopDAL.Entities;
     using WebShopDAL.Repositories;
 
-    public class UsersUnitOfWork
+    public class UnitOfWork
     {
         private ISession _session;
         private IRepository<UserEntity>? _users = null;
@@ -12,7 +12,7 @@
         private IRepository<ProductEntity>? _products = null;
         private IRepository<CategoryEntity>? _categories = null;
 
-        public UsersUnitOfWork(ISession session)
+        public UnitOfWork(ISession session)
         {
             _session = session;
         }

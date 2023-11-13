@@ -1,9 +1,9 @@
 const React = require('react');
-const {useState, useEffect} = require('react');
+const { useState, useEffect } = require('react');
 const { Navbar, Nav, Form, Button, Container, NavDropdown, Offcanvas, Row, Col } = require('react-bootstrap');
 const { LinkContainer } = require('react-router-bootstrap');
 const { Link, useNavigate } = require('react-router-dom');
-const {useSelector, useDispatch} = require('react-redux')
+const { useSelector, useDispatch } = require('react-redux')
 
 const RegisterForm = require('../user/register.form.jsx');
 const LoginForm = require('../user/login.form.jsx');
@@ -22,8 +22,8 @@ function Header(props) {
 
     useEffect(() => {
         dispatch(accountActionCreators.tryLogin());
-    }, 
-    []);
+    },
+        []);
 
     const handleSearchClose = () => setSearchShow(false);
     const handleSearchShow = () => {
@@ -38,32 +38,32 @@ function Header(props) {
     }
 
     const handleProfileButton = () => {
-        if(!account.logged){
+        if (!account.logged) {
             handleRegisterShow();
         }
     }
 
     const userIcon = (logged) => {
-        if(logged){
+        if (logged) {
             return <i className='bi bi-person-fill' style={{ fontSize: '1.5rem' }}></i>;
-        }else{
+        } else {
             return <i className="bi bi-person" style={{ fontSize: '1.5rem' }}></i>;
         }
     }
 
     const userForm = () => {
         const handleRegisterButton = (type) => setLoginType(type);
-        if(isLoginType){
+        if (isLoginType) {
             return <LoginForm isLoginType={handleRegisterButton} />
-        }else{
+        } else {
             return <RegisterForm isLoginType={handleRegisterButton} />
         }
     };
 
     const userOffcanvasTitle = () => {
-        if(isLoginType){
+        if (isLoginType) {
             return <Offcanvas.Title>Вход в аккаунт</Offcanvas.Title>;
-        }else{
+        } else {
             return <Offcanvas.Title>Регистрация</Offcanvas.Title>;
         }
     }
@@ -103,11 +103,11 @@ function Header(props) {
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                     {userForm()}
-                        <Row className='mb-4'>
-                            <Col>
+                    <Row className='mb-4'>
+                        <Col>
                             <Button type='submit' className='btn btn-secondary'>Зарегистрироваться</Button>
-                            </Col>
-                        </Row>
+                        </Col>
+                    </Row>
                 </Offcanvas.Body>
             </Offcanvas>
         </Navbar>

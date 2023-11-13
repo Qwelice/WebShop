@@ -11,9 +11,9 @@
 
     public class UserService : IUserService
     {
-        private UsersUnitOfWork _unitOfWork;
+        private UnitOfWork _unitOfWork;
 
-        public UserService(UsersUnitOfWork unitOfWork)
+        public UserService(UnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

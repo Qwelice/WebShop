@@ -14,6 +14,7 @@
             serviceCollection.AddScoped<IUserService, UserService>();
             serviceCollection.AddScoped<ITokenConfigurationService, TokenConfigurationService>();
             serviceCollection.AddScoped<ITokenService, TokenService>();
+            serviceCollection.AddScoped<IWebShopService, WebShopService>();
             serviceCollection.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer();
         }

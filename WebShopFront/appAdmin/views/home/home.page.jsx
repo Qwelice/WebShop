@@ -17,7 +17,7 @@ function HomePage(props) {
         if (!admin.logged) {
             navigate('/login');
         }
-    }, [])
+    }, [admin.logged])
 
     return (
         <div className="home">

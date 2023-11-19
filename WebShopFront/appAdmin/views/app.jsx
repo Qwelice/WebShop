@@ -11,6 +11,7 @@ const NewProductPage = require('./home/new.product.page.jsx');
 const { useDispatch } = require('react-redux');
 
 const adminAccountActionCreators = require('../actionCreators/admin.account.action.creators');
+const ProductList = require('./home/product.list.jsx');
 
 function App() {
     const dispatch = useDispatch();
@@ -26,6 +27,7 @@ function App() {
             <Route path='/login' element={<LoginPage />} />
             <Route path='/newCategory' element={<NewCategoryPage/>} />
             <Route path='/newProduct' element={<NewProductPage />} />
+            <Route path='/productList' element={<ProductList/>} />
             <Route path='*' element={<HomePage />} />
         </Routes>
     </Router>

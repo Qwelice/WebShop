@@ -39,7 +39,7 @@
                 }
                 if(user != null)
                 {
-                    if (user.RefreshToken != null && user.RefreshToken == refreshTokenString && user.RefreshTokenExpiryTime < DateTime.UtcNow)
+                    if (user.RefreshToken != null && user.RefreshToken == refreshTokenString && user.RefreshTokenExpiryTime >= DateTime.UtcNow)
                     {
                         var newAccessToken = tokenService.GenerateAccessToken(user);
                         var newRefreshToken = tokenService.GenerateRefreshToken(user);

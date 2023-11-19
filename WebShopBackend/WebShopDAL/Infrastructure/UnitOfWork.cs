@@ -1,7 +1,9 @@
 ﻿namespace WebShopDAL.Infrastructure
 {
+    using MongoDB.Driver;
     using NHibernate;
     using WebShopDAL.Entities;
+    using WebShopDAL.MongoModels;
     using WebShopDAL.Repositories;
 
     public class UnitOfWork
@@ -11,10 +13,12 @@
         private IRepository<RoleEntity>? _roles = null;
         private IRepository<ProductEntity>? _products = null;
         private IRepository<CategoryEntity>? _categories = null;
+        private IMongoDatabase _mongoDb;
 
-        public UnitOfWork(ISession session)
+        public UnitOfWork(ISession session, IMongoDatabase mongoDb)
         {
             _session = session;
+            _mongoDb = mongoDb;
         }
 
         public IRepository<UserEntity> Users
@@ -64,5 +68,7 @@
                 return _categories;
             }
         }
+
+        public IMongoCollection<PhotoModel> Photos => _mongoDb.GetCollection<PhotoModel>("images");
     }
 }

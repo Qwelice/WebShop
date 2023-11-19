@@ -30,3 +30,48 @@ html, body{
 .offcanvas-backdrop{
     background-color: transparent;
 }
+
+.catalog{
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    &__body{
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    &__pagination{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    &__search{
+        margin: 0 auto;
+        max-width: 65%;
+    }
+    &__products{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+.cart{
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    &__body{
+        margin: 1rem;
+    }
+    &__item{
+        display: flex;
+        flex-direction: row;
+        &-name{
+            margin-right: 1rem;
+        }
+        &-count{
+            margin-right: 1rem;
+            margin-left: 1rem;
+        }
+    }
+}

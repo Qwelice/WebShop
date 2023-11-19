@@ -9,6 +9,7 @@ const RegisterForm = require('../user/register.form.jsx');
 const LoginForm = require('../user/login.form.jsx');
 
 const accountActionCreators = require('../../actionCreators/account.action.creators');
+const Cart = require('../home/cart.jsx');
 
 function Header(props) {
     const navigage = useNavigate();
@@ -18,12 +19,19 @@ function Header(props) {
 
     const [searchShow, setSearchShow] = useState(false);
     const [registerShow, setRegisterShow] = useState(false);
+    const [cartShow, setCartShow] = useState(false);
     const [isLoginType, setLoginType] = useState(true);
 
     useEffect(() => {
         dispatch(accountActionCreators.tryLogin());
     },
         []);
+
+    useEffect(() => {
+        if(account.logged){
+            setRegisterShow(false);
+        }
+    }, [account.logged])
 
     const handleSearchClose = () => setSearchShow(false);
     const handleSearchShow = () => {
@@ -35,6 +43,11 @@ function Header(props) {
     const handleRegisterShow = () => {
         setRegisterShow(true);
         setSearchShow(false);
+    }
+
+    const handleCartClose = () => setCartShow(false);
+    const handleCartShow = () => {
+        setCartShow(true);
     }
 
     const handleProfileButton = () => {
@@ -74,6 +87,14 @@ function Header(props) {
                 <LinkContainer to='/'>
                     <Navbar.Brand>WebShop</Navbar.Brand>
                 </LinkContainer>
+                <Navbar.Toggle aria-controls="nav-menu" />
+                <Navbar.Collapse id="menu">
+                    <Nav className="me-auto">
+                        <LinkContainer to='/catalog'>
+                            <Nav.Link>Каталог</Nav.Link>
+                        </LinkContainer>
+                    </Nav>
+                </Navbar.Collapse>
                 <Nav className="ms-auto my-2 my-lg-0">
                     <LinkContainer className='p-2 me-3' to='/'>
                         <Nav.Link onClick={handleSearchShow}><i className="bi bi-search" style={{ fontSize: '1.5rem' }}></i></Nav.Link>
@@ -81,9 +102,7 @@ function Header(props) {
                     <LinkContainer className='p-2 me-3' to='/'>
                         <Nav.Link onClick={handleProfileButton}>{userIcon(account.logged)}</Nav.Link>
                     </LinkContainer>
-                    <LinkContainer className='p-2 me-3' to='/'>
-                        <Nav.Link> <i className="bi bi-cart" style={{ fontSize: '1.5rem' }}></i> </Nav.Link>
-                    </LinkContainer>
+                    <Nav.Link type='button' onClick={handleCartShow}><i className="bi bi-cart" style={{ fontSize: '1.5rem' }}></i></Nav.Link>
                 </Nav>
             </Container>
             <Offcanvas show={searchShow} onHide={handleSearchClose} placement='start'>
@@ -103,11 +122,12 @@ function Header(props) {
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                     {userForm()}
-                    <Row className='mb-4'>
-                        <Col>
-                            <Button type='submit' className='btn btn-secondary'>Зарегистрироваться</Button>
-                        </Col>
-                    </Row>
+                </Offcanvas.Body>
+            </Offcanvas>
+            <Offcanvas show={cartShow} onHide={handleCartClose} placement='end' backdrop={false} scroll={true}>
+                <Offcanvas.Header closeButton>Корзина</Offcanvas.Header>
+                <Offcanvas.Body>
+                    <Cart />
                 </Offcanvas.Body>
             </Offcanvas>
         </Navbar>

@@ -27,6 +27,10 @@ function Cart(props) {
         dispatch(shopActionCreators.removeFromCart(product, cart.products));
     }
 
+    const onOrdersClick = () => {
+        navigate('/orders');
+    }
+
     return (
         <div className="cart">
             <div className="cart__body">
@@ -42,7 +46,7 @@ function Cart(props) {
                         </ListGroup.Item>
                     })}
                 </ListGroup>
-                <Button className='mt-3 justify-self-center' type='button'>Оформление заказа</Button>
+                <Button className='mt-3 justify-self-center' type='button' onClick={onOrdersClick}>Оформление заказа</Button>
             </div>
         </div>
     );

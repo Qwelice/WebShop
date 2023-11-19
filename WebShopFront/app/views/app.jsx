@@ -5,6 +5,7 @@ const Router = require('react-router-dom').BrowserRouter;
 const Header = require('./shared/header.jsx');
 const HomePage = require('./home/home.page.jsx');
 const CatalogPage = require('./home/catalog.page.jsx');
+const OrderPage = require('./home/order.page.jsx');
 
 function App() {
     return <Router>
@@ -12,6 +13,7 @@ function App() {
         <Routes>
             <Route path='/' element={<HomePage/>} />
             <Route path='/catalog' element={<CatalogPage/>} />
+            <Route path='/orders' element={<OrderPage />} />
             <Route path='*' element={<HomePage/>} />
         </Routes>
     </Router>

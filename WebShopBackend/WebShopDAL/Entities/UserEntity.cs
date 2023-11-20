@@ -11,9 +11,11 @@
         public virtual IList<RoleEntity> Roles { get; set; }
         public virtual string RefreshToken { get; set; }
         public virtual DateTime RefreshTokenExpiryTime { get; set; }
+        public virtual IList<OrderEntity> Orders { get; set; }
         public UserEntity() 
         {
             Roles = new List<RoleEntity>();
+            Orders = new List<OrderEntity>();
         }
     }
 }

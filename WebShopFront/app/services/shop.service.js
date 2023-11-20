@@ -37,4 +37,17 @@ function getProductsByQueryAndPage(query, page){
     return fetch(API.BASE_URL + API.PRODUCT_LIST_ENDP + `/${query}/${page}`, requestOptions).then(fulfilledHandler, rejectedHandler);
 }
 
-module.exports = {getProducts, getProductsByPage, getProductsByQuery, getProductsByQueryAndPage};
+function createNewOrder(email, products){
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            userEmail: email,
+            products
+        })
+    };
+
+    return fetch(API.BASE_URL + API.NET_ORDER_ENDP, requestOptions).then(fulfilledHandler, rejectedHandler);
+}
+
+module.exports = {getProducts, getProductsByPage, getProductsByQuery, getProductsByQueryAndPage, createNewOrder};

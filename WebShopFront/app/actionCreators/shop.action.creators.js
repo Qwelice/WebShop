@@ -157,6 +157,14 @@ function removeFromCart(product, collection) {
   };
 }
 
+function cartNewOrder(email, collection) {
+  return (dispatch) => {
+    const products = collection.map((item) => item.product);
+    shopService.createNewOrder(email, products);
+    dispatch(shopActions.cartNewOrder([]));
+  }
+}
+
 module.exports = {
   getProducts,
   getProductsByPage,
@@ -164,4 +172,5 @@ module.exports = {
   getProductsByQueryAndPage,
   appendToCart,
   removeFromCart,
+  cartNewOrder,
 };

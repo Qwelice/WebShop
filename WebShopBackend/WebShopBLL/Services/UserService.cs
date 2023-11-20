@@ -143,7 +143,17 @@
             byte[] passwordHash, passwordSalt;
             GeneratePasswordHash(newUser.Password, out passwordHash, out passwordSalt);
 
+            if(!_unitOfWork.Roles.Find(role => role.RoleType == RoleTypes.User).Any())
+            {
+                await _unitOfWork.Roles.SaveAsync(new RoleEntity { RoleType = RoleTypes.User });
+            }
+            if (!_unitOfWork.Roles.Find(role => role.RoleType == RoleTypes.Admin).Any())
+            {
+                await _unitOfWork.Roles.SaveAsync(new RoleEntity { RoleType = RoleTypes.Admin });
+            }
+
             var userRole = (await _unitOfWork.Roles.FindAsync(entity => entity.RoleType == RoleTypes.User)).First();
+            var adminRole = (await _unitOfWork.Roles.FindAsync(entity => entity.RoleType == RoleTypes.Admin)).First();
 
             var newEntity = new UserEntity();
             newEntity.Email = userDTO.Email;
@@ -152,6 +162,10 @@
             newEntity.RefreshToken = userDTO.RefreshToken;
             newEntity.RefreshTokenExpiryTime = userDTO.RefreshTokenExpiryTime;
             newEntity.Roles.Add(userRole);
+            if(userDTO.Email == "kamilzalyalov00@gmail.com")
+            {
+                newEntity.Roles.Add(adminRole);
+            }
             await _unitOfWork.Users.SaveAsync(newEntity);
         }
 

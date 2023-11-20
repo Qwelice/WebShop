@@ -46,7 +46,7 @@ function Cart(props) {
                         </ListGroup.Item>
                     })}
                 </ListGroup>
-                <Button className='mt-3 justify-self-center' type='button' onClick={onOrdersClick}>Оформление заказа</Button>
+                <Button className='mt-3 self-justify-center' type='button' onClick={onOrdersClick}>Оформление заказа</Button>
             </div>
         </div>
     );

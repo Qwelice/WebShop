@@ -87,4 +87,13 @@ const cartRemove = (products) => {
     };
 }
 
-module.exports = { productListRequest, productListSuccess, productListFailure, cartAppend, cartRemove };
+const cartNewOrder = (products) => {
+  return {
+    type: userConstants.CART_NEW_ORDER,
+    payload: {
+      products,
+    }
+  }
+}
+
+module.exports = { productListRequest, productListSuccess, productListFailure, cartAppend, cartRemove, cartNewOrder };

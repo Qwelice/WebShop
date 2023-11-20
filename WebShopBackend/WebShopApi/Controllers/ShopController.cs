@@ -1,6 +1,7 @@
 ﻿namespace WebShopApi.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using WebShopApi.Models;
     using WebShopBLL.DTO;
     using WebShopBLL.Infrastructure;
     using WebShopBLL.Services.Interfaces;
@@ -53,6 +54,27 @@
             var pagination = new PaginationHelper<ProductDTO>(products, _itemsPerPage);
             var result = products.Skip(pageIndex * _itemsPerPage).Take(_itemsPerPage);
             return Ok(new { Products = products, PageCount = pagination.PageCount, CurrentPage = pageIndex + 1 });
+        }
+
+        [HttpPost("neworder")]
+        public async Task<IActionResult> CreateNewOrder([FromBody] OrderViewModel model)
+        {
+            var orderDto = new OrderDTO()
+            {
+                User = new UserDTO { Email = model.UserEmail },
+                IsClosed = true,
+                ClosedDate = DateTime.UtcNow,
+                Products = model.Products.Select(p => new ProductDTO
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Price = p.Price,
+                    Categories = p.Categories.Select(c => new CategoryDTO { Id = c.Id, Name = c.Name }).ToList()
+                }).ToList()
+            };
+            await _shopService.CreateNewOrderAsync(orderDto);
+            return Ok();
         }
     }
 }

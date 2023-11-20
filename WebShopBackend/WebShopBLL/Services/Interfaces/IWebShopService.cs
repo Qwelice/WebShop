@@ -12,5 +12,6 @@
         public Task<IList<CategoryDTO>> GetAllCategoriesAsync();
         public Task<IList<ProductDTO>> GetAllProductsAsync();
         public Task<IList<ProductDTO>> GetProductsByQueryAsync(string query);
+        public Task CreateNewOrderAsync(OrderDTO order);
     }
 }

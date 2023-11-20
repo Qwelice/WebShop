@@ -4,7 +4,9 @@ const API = {
     AUTH_LOGIN_ENDP: '/api/auth/login',
     AUTH_LOGOUT_ENDP: '/api/auth/logout',
 
-    PRODUCT_LIST_ENDP: '/api/shop/products'
+    PRODUCT_LIST_ENDP: '/api/shop/products',
+
+    NET_ORDER_ENDP: '/api/shop/neworder'
 };
 
 module.exports = API;

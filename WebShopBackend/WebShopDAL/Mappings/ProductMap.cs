@@ -11,12 +11,14 @@
             Id(x => x.Id)
                 .GeneratedBy.Guid();
             Map(x => x.Name);
-            Map(x => x.Description);
             Map(x => x.Price);
             Map(x => x.PriceFix);
             HasManyToMany(x => x.Categories)
-                .Cascade.SaveUpdate()
+                .Cascade.All()
                 .Table("products_categories");
+            HasManyToMany(x => x.Orders)
+                .Cascade.All()
+                .Table("orders_products");
         }
     }
 }

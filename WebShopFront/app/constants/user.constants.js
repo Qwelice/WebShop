@@ -5,6 +5,7 @@ const userConstants = {
 
     CART_APPEND: 'PRODUCT_CART_APPEND',
     CART_REMOVE: 'PRODUCT_CART_REMOVE',
+    CART_NEW_ORDER: 'PRODUCT_CART_NEW_ORDER',
 }
 
 module.exports = userConstants;

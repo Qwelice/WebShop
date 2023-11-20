@@ -1,7 +1,5 @@
 ﻿namespace WebShopBLL.Services
 {
-    using Microsoft.AspNetCore.Http.HttpResults;
-    using MongoDB.Bson;
     using MongoDB.Driver;
     using System;
     using System.Collections.Generic;
@@ -35,6 +33,21 @@
             await _unitOfWork.Categories.SaveAsync(newCategory);
         }
 
+        public async Task CreateNewOrderAsync(OrderDTO order)
+        {
+            var user = _unitOfWork.Users.Find(entity => entity.Email == order.User.Email).FirstOrDefault();
+            if (user != null)
+            {
+                var products = await _unitOfWork.Products.FindAsync(entity => order.Products.Select(p => p.Id).Contains(entity.Id));
+                var orderEntity = new OrderEntity();
+                orderEntity.IsClosed = order.IsClosed;
+                orderEntity.ClosedDate = order.ClosedDate;
+                orderEntity.Owner = user;
+                orderEntity.Products = products.ToList();
+                await _unitOfWork.Orders.SaveAsync(orderEntity);
+            }
+        }
+
         public async Task CreateNewProductAsync(ProductDTO product)
         {
             if(_unitOfWork.Products.Find(entity => entity.Name == product.Name).Any())
@@ -43,7 +56,6 @@
             }
             var newProduct = new ProductEntity();
             newProduct.Name = product.Name;
-            newProduct.Description = product.Description;
             newProduct.Price = product.Price;
             newProduct.PriceFix = 0;
             var categories = _unitOfWork.Categories.Find(entity => product.Categories.Select(c => c.Name).Contains(entity.Name)).ToList();
@@ -57,7 +69,7 @@
             if (prod != null)
             {
                 var id = prod.Id;
-                await _unitOfWork.Photos.InsertOneAsync(new PhotoModel { PhotoId = id, PhotoData = product.PhotoData });
+                await _unitOfWork.ProductsExtend.InsertOneAsync(new ProductModel { PhotoId = id, PhotoData = product.PhotoData, Description = product.Description });
             }
         }
 
@@ -94,9 +106,9 @@
             var products = await _unitOfWork.Products.GetAllAsync();
             foreach(var product in products)
             {
-                var filter = Builders<PhotoModel>.Filter.Where(p => p.PhotoId == product.Id);
-                var photoData = _unitOfWork.Photos.Find(filter).FirstOrDefault()?.PhotoData;
-                if(photoData == null)
+                var filter = Builders<ProductModel>.Filter.Where(p => p.PhotoId == product.Id);
+                var ext = _unitOfWork.ProductsExtend.Find(filter).FirstOrDefault();
+                if(ext == null)
                 {
                     continue;
                 }
@@ -104,10 +116,10 @@
                 {
                     Id = product.Id,
                     Name = product.Name,
-                    Description = product.Description,
+                    Description = ext.Description,
                     Price = product.Price,
                     PriceFix = product.PriceFix,
-                    PhotoData = photoData,
+                    PhotoData = ext.PhotoData,
                     Categories = product.Categories.Select(c => new CategoryDTO() { Id = c.Id, Name = c.Name }).ToList()
                 };
                 result.Add(prod);
@@ -123,13 +135,15 @@
             var similarity = new JaccardSimilarity();
             var prods = await _unitOfWork.Products.FindAsync(entity => 
                 similarity.GetSimilarity(entity.Name, queryString) >= similarityPercentage ||
-                entity.Name.Contains(queryString));
+                entity.Name.Contains(queryString) ||
+                entity.Categories.Where(c => c.Name.Contains(queryString) || similarity.GetSimilarity(c.Name, queryString) >= similarityPercentage).Any()
+                );
             
             foreach(var prod in prods)
             {
-                var filter = Builders<PhotoModel>.Filter.Where(p => p.PhotoId == prod.Id);
-                var photoData = _unitOfWork.Photos.Find(filter).FirstOrDefault()?.PhotoData;
-                if (photoData == null)
+                var filter = Builders<ProductModel>.Filter.Where(p => p.PhotoId == prod.Id);
+                var ext = _unitOfWork.ProductsExtend.Find(filter).FirstOrDefault();
+                if (ext == null)
                 {
                     continue;
                 }
@@ -137,10 +151,10 @@
                 {
                     Id = prod.Id,
                     Name = prod.Name,
-                    Description = prod.Description,
+                    Description = ext.Description,
                     Price = prod.Price,
                     PriceFix = prod.PriceFix,
-                    PhotoData = photoData,
+                    PhotoData = ext.PhotoData,
                     Categories = prod.Categories.Select(c => new CategoryDTO { Id = c.Id, Name = c.Name }).ToList()
                 });
             }

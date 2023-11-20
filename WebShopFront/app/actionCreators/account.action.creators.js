@@ -9,6 +9,7 @@ function register(email, password) {
         const authenticated = response.authenticated;
         if (authenticated && authenticated == true) {
           localStorage.setItem("authenticated", "yes");
+          localStorage.setItem("email", email);
           dispatch(accountActions.registerSuccess(false, true, false, ""));
         } else {
           localStorage.setItem('authenticated', 'no');
@@ -37,6 +38,7 @@ function login(email, password) {
         const authenticated = response.authenticated;
         if (authenticated && authenticated == true) {
           localStorage.setItem("authenticated", "yes");
+          localStorage.setItem("email", email);
           dispatch(accountActions.registerSuccess(false, true, false, ""));
         } else {
           localStorage.setItem('authenticated', 'no');
@@ -60,6 +62,7 @@ function login(email, password) {
 function logout() {
   return (dispatch) => {
     localStorage.removeItem("authenticated");
+    localStorage.removeItem("email");
     dispatch(accountActions.logout(false, false, false, ""));
   };
 }

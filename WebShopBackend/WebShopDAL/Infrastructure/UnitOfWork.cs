@@ -13,6 +13,7 @@
         private IRepository<RoleEntity>? _roles = null;
         private IRepository<ProductEntity>? _products = null;
         private IRepository<CategoryEntity>? _categories = null;
+        private IRepository<OrderEntity>? _orders = null;
         private IMongoDatabase _mongoDb;
 
         public UnitOfWork(ISession session, IMongoDatabase mongoDb)
@@ -69,6 +70,18 @@
             }
         }
 
-        public IMongoCollection<PhotoModel> Photos => _mongoDb.GetCollection<PhotoModel>("images");
+        public IRepository<OrderEntity> Orders
+        {
+            get
+            {
+                if(_orders == null)
+                {
+                    _orders = new OrderRepository(_session);
+                }
+                return _orders;
+            }
+        }
+
+        public IMongoCollection<ProductModel> ProductsExtend => _mongoDb.GetCollection<ProductModel>("products");
     }
 }

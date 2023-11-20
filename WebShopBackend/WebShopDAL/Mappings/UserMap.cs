@@ -21,6 +21,8 @@
             HasManyToMany(x => x.Roles)
                 .Cascade.SaveUpdate()
                 .Table("users_roles");
+            HasMany(x => x.Orders)
+                .Cascade.All();
         }
     }
 }

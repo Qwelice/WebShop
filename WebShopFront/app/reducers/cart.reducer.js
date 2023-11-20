@@ -16,6 +16,7 @@ function cart(state=initState, action){
                 ...state,
                 ...action.payload
             }
+        
         default:
             return state;
     }

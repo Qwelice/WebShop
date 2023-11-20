@@ -49,7 +49,7 @@
                     MaxAge = TimeSpan.FromDays(30)
                 });
                 await _userService.SaveUserAsync(user);
-                return Ok(new { Authenticated = true });
+                return Ok(new { Authenticated = true, Email = user.Email });
             }
             return BadRequest("Некорректные данные");
         }
@@ -92,7 +92,7 @@
                 });
 
                 await _userService.UpdateUserAsync(entity);
-                return Ok(new { Authenticated = true });
+                return Ok(new { Authenticated = true, Email = user.Email });
             }
             return BadRequest("Некорректные данные");
         }
